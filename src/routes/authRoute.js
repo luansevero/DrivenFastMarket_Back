@@ -3,6 +3,7 @@ import { signUp, signIn } from "../controllers/authController.js";
 import authSchema from "../middlewares/authSchemaValidationMiddleware.js";
 
 
+
 const authRoute = Router();
 
 authRoute.post("/signIn",authSchema.signInValidation, signIn);

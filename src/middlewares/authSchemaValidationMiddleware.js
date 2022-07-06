@@ -7,11 +7,11 @@ function signInValidation(req,res,next){
         next();
 }
 
-function singUpValidation(req,res,next){
+function signUpValidation(req,res,next){
         const { email, password } = req.body;
         const validation = signUpSchema.validate({email:email, password:password});
         if(validation.error){return res.sendStatus(400)};
         next();
 }
 
-export { signInValidation, singUpValidation }
+export { signInValidation, signUpValidation }
