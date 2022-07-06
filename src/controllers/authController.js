@@ -20,7 +20,7 @@ async function signUp(req,res){
 
 }
 
-async function singIn(req,res){
+async function signIn(req,res){
     const { email, password } = req.body;
 
     try{
@@ -39,4 +39,4 @@ async function singIn(req,res){
 
 }
 
-export { signUp, singIn}
+export { signUp, signIn }
