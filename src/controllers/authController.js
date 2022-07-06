@@ -4,9 +4,8 @@ import { v4 as uuid } from 'uuid';
 
 async function signUp(req,res){
     const costumer = req.body;
-
     try{
-        const haveCostumer = await db.collection('costumers').findOne({ email });
+        const haveCostumer = await db.collection('costumers').findOne({email:costumer.email});
         if(haveCostumer){return res.status(400).send('Email já em uso')};
 
         const passwordHash = bycrypt.hashSync(costumer.password, 10);
