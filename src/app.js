@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import router from './routes/routes';
+import router from './routes/routes.js';
 
 const server = express();
 server.use(cors());
