@@ -1,3 +1,4 @@
+
 import { db } from '../setup/db.js';
 
 const trolley = {
@@ -6,8 +7,8 @@ const trolley = {
         const product = req.body;
         try{
             await db.collection('trolley-products').insertOne({...product, userId: costumer._id, productId: product._id})
-            res.sendStatus(201);
 
+            res.sendStatus(201);
         }catch(error){
             console.log("[Error] - postProduct Trolley Controller");
             res.sendStatus(500);
