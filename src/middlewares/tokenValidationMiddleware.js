@@ -21,4 +21,4 @@ async function tokenValidationMiddleware(req,res,next){
     }
 }
 
-export default tokenValidationMiddleware
+export { tokenValidationMiddleware };
