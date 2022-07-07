@@ -6,7 +6,18 @@ async function registerProducts (req, res) {
 
     await db.collection("products").insertOne(product);
 
-    res.sendStatus(200);
+    res.sendStatus(201);
 }
 
-export { registerProducts };
+async function getAllProducts (req, res) {
+
+    const products = await db.collection("products").find().toArray();
+
+    if(products.length === 0) {
+        return res.sendStatus(404);
+    }
+    
+    res.status(200).send(products);
+}
+
+export { registerProducts, getAllProducts };
