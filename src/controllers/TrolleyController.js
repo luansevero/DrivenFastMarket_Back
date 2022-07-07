@@ -39,5 +39,16 @@ const trolley = {
             console.log("[Error] - changeProductQuantity Trolley Controller");
             res.sendStatus(500);
         }
+    },
+    deleteProduct: async function(req,res){
+        const { costumer } = res.locals;
+        const product = req.body;
+        try{
+            await db.collection('trolley-products').deleteOne({userId: costumer._id, productId: product.productId});
+            res.sendStatus(200);
+        }catch(error){
+            console.log("[Error] - deleteProduct Trolley Controller");
+            res.sendStatus(500);
+        }
     }
 }
