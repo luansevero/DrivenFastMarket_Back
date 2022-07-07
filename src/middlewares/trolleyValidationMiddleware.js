@@ -12,4 +12,4 @@ async function searchProduct(req,res,next){
     }
 }
 
-export default isProductAlreadyInCostumerTrolley;
+export default searchProduct;

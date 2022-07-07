@@ -2,13 +2,13 @@ import { Router } from "express";
 import trolley from "../controllers/TrolleyController.js";
 import { tokenValidationMiddleware } from "../middlewares/tokenValidationMiddleware.js";
 import trolleyValidate from "../middlewares/trolleySchemaValidationMiddleware.js";
-import isProductAlreadyInCostumerTrolley from '../middlewares/trolleyValidationMiddleware.js';
+import searchProduct from "../middlewares/trolleyValidationMiddleware.js";
 
 const trolleyRoute = Router();
 
-trolleyRoute.get('/carrinho',tokenValidationMiddleware, trolley.getProducts);
-trolleyRoute.post('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductSchema,isProductAlreadyInCostumerTrolley, trolley.postProduct);
-trolleyRoute.put('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductAmountSchema, trolley.changeProductQuantity);
-trolleyRoute.delete('/carrinho',tokenValidationMiddleware,trolleyValidate.ProductSchema, trolley.deleteProduct);
+trolleyRoute.get('/carrinho',tokenValidationMiddleware, searchProduct, trolley.getProducts);
+trolleyRoute.post('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductSchema, searchProduct, trolley.postProduct);
+trolleyRoute.put('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductAmountSchema,searchProduct, trolley.changeProductQuantity);
+trolleyRoute.delete('/carrinho',tokenValidationMiddleware,trolleyValidate.ProductSchema, searchProduct, trolley.deleteProduct);
 
 export default trolleyRoute
