@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { registerProducts, getAllProducts, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType, getAllProductsByCategory } from '../controllers/productsController.js';
-import { registerProductValidation, productTypeValidation } from "../middlewares/productsValidationMiddleware.js";
+import { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered } from "../middlewares/productsValidationMiddleware.js";
 import { categoryValidation } from "../middlewares/categoryValidationMiddleware.js";
 import { tokenValidationMiddleware } from '../middlewares/tokenValidationMiddleware.js';
 
@@ -15,7 +15,7 @@ const productsRoute = Router();
 //     "image": "",
 //     "tipo": ""
 // }
-productsRoute.post("/registerProduct", tokenValidationMiddleware, categoryValidation, productTypeValidation, registerProductValidation, registerProducts);
+productsRoute.post("/registerProduct", tokenValidationMiddleware, categoryValidation, productTypeValidation, registerProductValidation,verifyIfProductIsAlreadyRegistered, registerProducts);
 
 productsRoute.get("/getAllProducts", getAllProducts);
 

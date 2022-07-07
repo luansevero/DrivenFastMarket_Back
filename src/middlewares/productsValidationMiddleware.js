@@ -9,16 +9,22 @@ async function registerProductValidation(req, res, next) {
         if (validation.error) {
             return res.sendStatus(422);
         }
-    
-        const verifyIfProductIsAlreadyRegistered = await db.collection("products").findOne({ nome: product.nome });
-        if (verifyIfProductIsAlreadyRegistered) {
-            return res.status(409).send("Produto já cadastrado");
-        }
-
         next();   
     } catch (error) {
         console.log("[Error] - registerProductValidation Middleware");
         res.sendStatus(500);
+    }
+}
+
+async function verifyIfProductIsAlreadyRegistered(){
+    const product = req.body;
+    try{
+        const verifyIfProductIsAlreadyRegistered = await db.collection("products").findOne({ nome: product.nome });
+        if (verifyIfProductIsAlreadyRegistered) {
+            return res.status(409).send("Produto já cadastrado");
+        }
+    }catch(error){
+        console.log("[Error] - verifyIfProductIsAlreadyRegistered Middleware")
     }
 }
 
@@ -33,4 +39,4 @@ async function productTypeValidation (req, res, next) {
     next();
 }
 
-export { registerProductValidation, productTypeValidation };
+export { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered };
