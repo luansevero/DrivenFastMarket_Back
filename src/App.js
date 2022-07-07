@@ -16,11 +16,12 @@ import RegisterPage from './components/pages/RegisterPage';
 
 export default function App() {
     const [token, setToken] = useState(null);
+    const [user, setUser] = useState("")
     const [url, setUrl] = useState('https://driven-fast-market.herokuapp.com/');
 
     return (
         <TokenContext.Provider value={{setToken, token}}>
-            <UserContext.Provider value={{ url }}>
+            <UserContext.Provider value={{ url, setUrl, user, setUser }}>
                 <BrowserRouter>
                     <Routes>
                             <Route path="/" element={<HomePage />} />
