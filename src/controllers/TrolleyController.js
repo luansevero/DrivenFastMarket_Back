@@ -1,4 +1,3 @@
-import { reset } from 'nodemon';
 import { db } from '../setup/db.js';
 
 const trolley = {
