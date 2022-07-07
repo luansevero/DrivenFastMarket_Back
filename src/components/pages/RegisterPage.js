@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function RegisterPage () {
 
@@ -17,11 +18,25 @@ export default function RegisterPage () {
     const sendForm = (event) => {
         event.preventDefault();
         if(password !== retypePassword){
-            alert("Senhas não são iguais!");
-        }
-
-        if(password.length < 8){
-            alert("Senha muito curta!");
+            toast('🔑 Senhas não são iguais!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }else if(password.length < 8){
+            toast('🔑 Senha deve ter pelo 8 caracteres!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         }else{
             const data = {
                 email,
@@ -35,7 +50,15 @@ export default function RegisterPage () {
             })
     
             promise.catch(err => {
-                alert(err.response.data);
+                toast.error(err.response.data, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
                 console.log(err.response.message);
             })
         }
@@ -61,6 +84,7 @@ export default function RegisterPage () {
                     <input type="password"  required placeholder="Confirme a senha" value={retypePassword} onChange={e => setRetypePassword(e.target.value)}/>
                     <button type="submit">Criar conta</button>
                 </form>
+                <ToastContainer />
             </Container>
         </>
     )
