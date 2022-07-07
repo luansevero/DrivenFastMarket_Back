@@ -23,9 +23,26 @@ async function verifyIfProductIsAlreadyRegistered(){
         if (verifyIfProductIsAlreadyRegistered) {
             return res.status(409).send("Produto já cadastrado");
         }
+        next()
     }catch(error){
         console.log("[Error] - verifyIfProductIsAlreadyRegistered Middleware")
     }
+    next()
+}
+
+async function isProductAlreadyInCostumerTrolley(req,res,next){
+    const { costumer } = res.locals;
+    const product = req.body;
+    try{
+        const isProductAlreadyInCostumerTrolley = await db.collection("trolley-products").findOne({ userId: costumer._id, nome: product.nome });
+        if (isProductAlreadyInCostumerTrolley) {
+            return res.status(409).send("Esse produto já esta no carrinho!");
+        }
+        next()
+    }catch(error){
+        console.log("[Error] - isProductAlreadyInCostumerTrolley Middleware")
+    }
+    
 }
 
 async function productTypeValidation (req, res, next) {
@@ -39,4 +56,4 @@ async function productTypeValidation (req, res, next) {
     next();
 }
 
-export { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered };
+export { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered, isProductAlreadyInCostumerTrolley };
