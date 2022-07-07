@@ -36,6 +36,6 @@ productsRoute.delete("/deleteProduct/:nomeProduto", tokenValidationMiddleware, d
 
 // O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
 // O tipo é passado pelo parametro da rota, uma string representa o tipo do produto. Só aceita tipos que já foram cadastrados.
-productsRoute.get("/getAllProductsByCategoryAndType/:idCategoria/:tipoProduto", categoryValidation, getAllProductsByCategoryAndType);
+productsRoute.get("/getAllProductsByType/:idCategoria/:tipoProduto", categoryValidation, getAllProductsByCategoryAndType);
 
 export default productsRoute;
