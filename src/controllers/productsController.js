@@ -1,21 +1,11 @@
 import { db, ObjectId } from '../setup/db.js';
 
-const dictCategorias = {
-    "hortifruti": 1,
-    "acougue": 2,
-    "congelados": 3,
-    "padaria": 4,
-    "laticinios": 5,
-    "adega": 6,
-    "limpeza": 7
-}
-
 async function registerProducts (req, res) {
 
     try {
         const product = req.body;
 
-        await db.collection("products").insertOne({...product, categoria: dictCategorias[product.categoria]});
+        await db.collection("products").insertOne(product);
     
         res.sendStatus(201);
     } catch (error) {
@@ -45,7 +35,7 @@ async function getAllProductsById (req, res) {
     try {
         const idCategoria = req.params.idCategoria;
 
-        const product = await db.collection("products").find({categoria: dictCategorias[idCategoria]}).toArray();
+        const product = await db.collection("products").find({categoria: idCategoria}).toArray();
     
         if(!product || product.length === 0) {
             return res.sendStatus(404);
@@ -62,10 +52,10 @@ async function getAllProductsById (req, res) {
 async function getProductByName (req, res) {
 
     try {
-        const nome = req.params.idProduto;
+        const nome = req.params.nomeProduto;
         const idCategoria = req.params.idCategoria;
     
-        const product = await db.collection("products").findOne({nome, categoria: dictCategorias[idCategoria]});
+        const product = await db.collection("products").findOne({nome, categoria: idCategoria});
     
         if(!product) {
             return res.sendStatus(404);
@@ -83,7 +73,7 @@ async function getProductByName (req, res) {
 async function updateProduct (req, res) {
 
     try {
-        const idProduto = req.params.idProduto;
+        const idProduto = req.params.nomeProduto;
 
         const updatedProduct = await db.collection("products").updateOne(
             { nome: idProduto }, 
@@ -105,7 +95,7 @@ async function updateProduct (req, res) {
 // Receives a product object and deletes from database
 async function deleteProduct (req, res) {
     try {
-        const idProduto = req.params.idProduto;
+        const idProduto = req.params.nomeProduto;
 
         const deletedProduct = await db.collection("products").deleteOne({ nome: idProduto });
 
@@ -119,4 +109,23 @@ async function deleteProduct (req, res) {
     }
 }
 
-export { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct };
+async function getAllProductsByCategoryAndType (req, res) {
+
+    try {
+        const idCategoria = req.params.idCategoria;
+        const tipo = req.params.tipoProduto;
+
+        const product = await db.collection("products").find({categoria: idCategoria, tipo}).toArray();
+    
+        if(!product || product.length === 0) {
+            return res.sendStatus(404);
+        }
+    
+        res.status(200).send(product);
+    } catch (error) {
+        console.log("[Error] - getAllProductsByCategoryAndType Controller");
+        res.sendStatus(500);
+    }
+}
+
+export { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType };

@@ -5,10 +5,10 @@ const registerProductSchema = joi.object({
     preco: joi.number().min(1).required(),
     descricao: joi.string().min(1).trim().optional(),
     image: joi.string().min(1).trim().required(),
-    categoria: joi.string().valid("hortifruti", "acougue", "congelados", "padaria", "laticinios", "adega", "limpeza").required(),
-    tipo: joi.number().min(1).required()
+    categoria: joi.string().required(),
+    tipo: joi.string().trim().required()
 });
 
-const categorySchema = joi.object({idCategoria: joi.string().valid("hortifruti", "acougue", "congelados", "padaria", "laticinios", "adega", "limpeza").required()});
+const typeSchema = joi.object({tipo: joi.string().trim().required()});
 
-export { registerProductSchema, categorySchema };
+export { registerProductSchema, typeSchema };

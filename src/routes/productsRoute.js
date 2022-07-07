@@ -1,18 +1,41 @@
 import { Router } from "express";
-import { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct } from '../controllers/productsController.js';
-import { registerProductValidation, categoryValidation } from "../middlewares/productsValidationMiddleware.js";
+import { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType } from '../controllers/productsController.js';
+import { registerProductValidation, productTypeValidation } from "../middlewares/productsValidationMiddleware.js";
+import { categoryValidation } from "../middlewares/categoryValidationMiddleware.js";
 import { tokenValidationMiddleware } from '../middlewares/tokenValidationMiddleware.js';
 
 const productsRoute = Router();
 
-productsRoute.post("/registerProduct", tokenValidationMiddleware, registerProductValidation, registerProducts);
+// Objeto recebido pelo body do request
+// {
+//     "nome": "",
+//     "preco": number,
+//     "categoria": "",
+//     "descricao": "",
+//     "image": "",
+//     "tipo": ""
+// }
+productsRoute.post("/registerProduct", tokenValidationMiddleware, categoryValidation, productTypeValidation, registerProductValidation, registerProducts);
+
 productsRoute.get("/getAllProducts", getAllProducts);
 
-// O idCategoria pode ser um dos seguintes valores: hortifruti, acougue, congelados, padaria, laticinios, adega, limpeza . 
-// No salvamento eles sao convertidos para um inteiro de 1 a 7.
-productsRoute.get("/getAllProductsById/:idCategoria", categoryValidation, getAllProductsById);
-productsRoute.get("/getProductById/:idCategoria/:idProduto", categoryValidation, getProductByName);
-productsRoute.put("/updateProduct/:idProduto", tokenValidationMiddleware, updateProduct);
-productsRoute.delete("/deleteProduct/:idProduto", tokenValidationMiddleware, deleteProduct);
+// O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
+productsRoute.get("/getAllProductsById/:idCategoria/:nomeProduto", categoryValidation, getAllProductsById);
+
+// O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
+// O nome é passado pelo parametro da rota, uma string representa o nome do produto. Só aceita produtos que já foram cadastrados.
+productsRoute.get("/getProductById/:idCategoria/:nomeProduto", categoryValidation, getProductByName);
+
+// O nome é passado pelo parametro da rota, uma string representa o nome do produto. Só aceita produtos que já foram cadastrados.
+// O campo a ser atualizado é passado pelo body do request, só aceita um campo por vez.
+productsRoute.put("/updateProduct/:nomeProduto", tokenValidationMiddleware, updateProduct);
+
+// O nomeProduto é passado pelo parametro da rota, uma string representa o id do produto. Só aceita produtos que já foram cadastrados.
+// Necessario autenticar o usuario para deletar um produto.
+productsRoute.delete("/deleteProduct/:nomeProduto", tokenValidationMiddleware, deleteProduct);
+
+// O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
+// O tipo é passado pelo parametro da rota, uma string representa o tipo do produto. Só aceita tipos que já foram cadastrados.
+productsRoute.get("/getAllProductsByCategoryAndType/:idCategoria/:tipoProduto", categoryValidation, getAllProductsByCategoryAndType);
 
 export default productsRoute;
