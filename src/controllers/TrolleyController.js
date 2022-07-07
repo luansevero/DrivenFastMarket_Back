@@ -17,7 +17,7 @@ const trolley = {
     getProducts: async function(req,res){
         const { costumer } = res.locals;
         try{
-            const costumerTrolley = await db.collection('trolley-products').find({userId: costumer._id},{projection:{_id:0, userId:0}}).toArray();
+            const costumerTrolley = await db.collection('trolley-products').find({userId: costumer._id},{projection:{_id:0, userId:0, productId:0}}).toArray();
             if(!costumerTrolley){return res.sendStatus(401)};
 
             res.send(costumerTrolley);
