@@ -2,7 +2,7 @@ import { Router } from "express";
 import trolley from "../controllers/TrolleyController.js";
 import { tokenValidationMiddleware } from "../middlewares/tokenValidationMiddleware.js";
 import trolleyValidate from "../middlewares/trolleySchemaValidationMiddleware.js";
-import { registerProductValidation, isProductAlreadyInCostumerTrolley } from "../middlewares/productsValidationMiddleware.js";
+import isProductAlreadyInCostumerTrolley from '../middlewares/trolleyValidationMiddleware.js';
 
 const trolleyRoute = Router();
 
