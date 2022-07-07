@@ -20,7 +20,7 @@ productsRoute.post("/registerProduct", tokenValidationMiddleware, categoryValida
 productsRoute.get("/getAllProducts", getAllProducts);
 
 // O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
-productsRoute.get("/getAllProductsById/:idCategoria", categoryValidation, getAllProductsByCategory);
+productsRoute.get("/getAllProductsByCategory/:idCategoria", categoryValidation, getAllProductsByCategory);
 
 // O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
 // O nome é passado pelo parametro da rota, uma string representa o nome do produto. Só aceita produtos que já foram cadastrados.
