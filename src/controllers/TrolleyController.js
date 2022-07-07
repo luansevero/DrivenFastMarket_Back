@@ -6,7 +6,7 @@ const trolley = {
         const { costumer } = res.locals;
         const product = req.body;
         try{
-            await db.collection('trolley-products').insertOne({...product, userId: costumer._id, productId: `${product.categoria}.${product.tipo}`})
+            await db.collection('trolley-products').insertOne({...product, userId: costumer._id, productId: `${product.categoria}.${product.tipo}.${product.name}`})
 
             res.sendStatus(201);
         }catch(error){
