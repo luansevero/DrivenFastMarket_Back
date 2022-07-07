@@ -1,4 +1,4 @@
-import { firstProductSchema, alreadyInTrolleySchema } from '../schemas/trolleySchema';
+import { firstProductSchema, alreadyInTrolleySchema } from '../schemas/trolleySchema.js';
 
 const trolleyValidate = {
     ProductSchema: async function(req,res,next) {

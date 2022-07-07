@@ -41,4 +41,4 @@ async function productTypeValidation (req, res, next) {
     next();
 }
 
-export { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered, isProductAlreadyInCostumerTrolley };
+export { registerProductValidation, productTypeValidation, verifyIfProductIsAlreadyRegistered };
