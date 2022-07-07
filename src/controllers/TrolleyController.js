@@ -52,3 +52,5 @@ const trolley = {
         }
     }
 }
+
+export default trolley
