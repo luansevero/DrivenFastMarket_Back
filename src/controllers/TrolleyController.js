@@ -6,8 +6,9 @@ const trolley = {
         const { costumer } = res.locals;
         const product = req.body;
         try{
-            await db.collection('trolley-products').insertOne({...product, userId: costumer._id})
-            res.sendStatus(200);
+            await db.collection('trolley-products').insertOne({...product, userId: costumer._id, productId: product._id})
+            res.sendStatus(201);
+
         }catch(error){
             console.log("[Error] - postProduct Trolley Controller");
             res.sendStatus(500);
@@ -25,4 +26,18 @@ const trolley = {
             res.sendStatus(500);
         }
     },
+    changeProductQuantity: async function(req,res){
+        const { costumer } = res.locals;
+        const product = req.body;
+        try{
+            await db.collection('trolley-products').updateOne(
+                {userId: costumer._id, productId: product.productId},
+                {$inc: {amount: parseInt(product.amount)}}
+            )
+            res.sendStatus(200);
+        }catch(error){
+            console.log("[Error] - changeProductQuantity Trolley Controller");
+            res.sendStatus(500);
+        }
+    }
 }
