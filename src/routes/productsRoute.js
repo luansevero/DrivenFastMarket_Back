@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType } from '../controllers/productsController.js';
+import { registerProducts, getAllProducts, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType, getAllProductsByCategory } from '../controllers/productsController.js';
 import { registerProductValidation, productTypeValidation } from "../middlewares/productsValidationMiddleware.js";
 import { categoryValidation } from "../middlewares/categoryValidationMiddleware.js";
 import { tokenValidationMiddleware } from '../middlewares/tokenValidationMiddleware.js';
@@ -20,7 +20,7 @@ productsRoute.post("/registerProduct", tokenValidationMiddleware, categoryValida
 productsRoute.get("/getAllProducts", getAllProducts);
 
 // O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
-productsRoute.get("/getAllProductsById/:idCategoria/:nomeProduto", categoryValidation, getAllProductsById);
+productsRoute.get("/getAllProductsById/:idCategoria", categoryValidation, getAllProductsByCategory);
 
 // O idCategoria é passado pelo parametro da rota, uma string representa o id da categoria. Só aceita categorias que já foram cadastradas.
 // O nome é passado pelo parametro da rota, uma string representa o nome do produto. Só aceita produtos que já foram cadastrados.

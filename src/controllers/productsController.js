@@ -30,7 +30,7 @@ async function getAllProducts (req, res) {
     }
 }
 
-async function getAllProductsById (req, res) {
+async function getAllProductsByCategory (req, res) {
 
     try {
         const idCategoria = req.params.idCategoria;
@@ -128,4 +128,4 @@ async function getAllProductsByCategoryAndType (req, res) {
     }
 }
 
-export { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType };
+export { registerProducts, getAllProducts, getAllProductsByCategory, getProductByName, updateProduct, deleteProduct, getAllProductsByCategoryAndType };
