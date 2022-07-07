@@ -79,4 +79,44 @@ async function getProductByName (req, res) {
 
 }
 
-export { registerProducts, getAllProducts, getAllProductsById, getProductByName };
+// Receives a product object and updates it in the database
+async function updateProduct (req, res) {
+
+    try {
+        const idProduto = req.params.idProduto;
+
+        const updatedProduct = await db.collection("products").updateOne(
+            { nome: idProduto }, 
+            {$set: req.body}
+        );
+        
+        if(!updatedProduct) {
+            return res.sendStatus(404);
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.log("[Error] - updateProduct Controller");
+        res.sendStatus(500);
+    }
+
+}
+
+// Receives a product object and deletes from database
+async function deleteProduct (req, res) {
+    try {
+        const idProduto = req.params.idProduto;
+
+        const deletedProduct = await db.collection("products").deleteOne({ nome: idProduto });
+
+        if(!deletedProduct || deletedProduct.deletedCount === 0) {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.log("[Error] - deleteProduct Controller");
+        res.sendStatus(500);
+    }
+}
+
+export { registerProducts, getAllProducts, getAllProductsById, getProductByName, updateProduct, deleteProduct };
