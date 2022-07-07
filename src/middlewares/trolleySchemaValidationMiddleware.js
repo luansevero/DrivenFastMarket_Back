@@ -1,7 +1,7 @@
 import { firstProductSchema, alreadyInTrolleySchema } from '../schemas/trolleySchema';
 
 const trolleyValidate = {
-    postProductSchema: async function(req,res,next) {
+    ProductSchema: async function(req,res,next) {
         try{
             const product = req.body;
             const validation = firstProductSchema.validate(product);
@@ -12,7 +12,7 @@ const trolleyValidate = {
             res.sendStatus(500);
         }
     },
-    changeAmoutSchema: async function(req,res,next){
+    ProductAmountSchema: async function(req,res,next){
         try{
             const product = req.body;
             const validation = alreadyInTrolleySchema.validate(product);
