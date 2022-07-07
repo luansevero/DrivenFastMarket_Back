@@ -18,7 +18,7 @@ const trolley = {
         const { costumer } = res.locals;
         try{
             const costumerTrolley = await db.collection('trolley-products').find({userId: costumer._id},{projection:{_id:0, userId:0}}).toArray();
-            if(!costumerTrolley){return res.sendStatus(401)};
+            if(!costumerTrolley){return res.send([])};
 
             res.send(costumerTrolley);
         }catch(error){
