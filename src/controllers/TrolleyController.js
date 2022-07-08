@@ -28,7 +28,18 @@ const trolley = {
             const costumerTrolley = await db.collection('trolley-products').find({userId: costumer._id},{projection:{_id:0, userId:0}}).toArray();
             if(!costumerTrolley){return res.send([])};
 
-            res.send(costumerTrolley);
+            const productValues = await db.collection('trolley-products').aggregate([
+                {$match: {userId: costumer._id}},
+                {$project: {
+                    _id: 0,
+                    nome: "$nome",
+                    total:{$multiply:["$amount" , "$preco"]}
+                }}
+            ]).toArray();
+            
+            const subtotal = productValues.map(product => product.total)
+
+            res.send({produts:costumerTrolley, productsValue:productValues, subtotal:subtotal.reduce((a,b) => a + b, 0)});
         }catch(error){
             console.log("[Error] - getProducts Trolley Controller");
             res.sendStatus(500);
