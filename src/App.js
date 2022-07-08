@@ -13,6 +13,7 @@ import RequestPage from './components/pages/RequestPage';
 import MenuPage from './components/pages/MenuPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
     const [token, setToken] = useState(null);
@@ -37,5 +38,6 @@ export default function App() {
                 </BrowserRouter>
             </UserContext.Provider>
         </TokenContext.Provider>
+        
     )
 }
