@@ -172,7 +172,7 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 15px;
         line-height: 18px;
-        margin-top: 32  px;
+        margin-top: 32px;
         text-align: center;
         color: #FF4791;
     }
