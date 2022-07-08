@@ -15,6 +15,8 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function App() {
     const [token, setToken] = useState(null);
     const [user, setUser] = useState("")
