@@ -1,4 +1,4 @@
-import { db, ObjectId } from '../setup/db.js';
+import { db } from '../setup/db.js';
 
 async function saveCategory (req, res) {
 
@@ -18,12 +18,23 @@ async function saveCategory (req, res) {
 
 async function getAllCategories (req, res) {
     try {
-        const product = await db.collection("categories").find().toArray();
+        const product = await db.collection("categories").aggregate(
+            [
+                { $sort: { nome: 1, image: 1} },
+                {
+                    $group:
+                        {
+                            _id: "$nome",
+                            image: { $first: "$image" }
+                        }
+                }
+            ]
+        ).toArray();
     
         if(!product || product.length === 0) {
             return res.sendStatus(404);
         }
-    
+        console.log(product);
         res.status(200).send(product); 
     } catch (error) {
         console.log("[Error] - getAllCategories Controller");
