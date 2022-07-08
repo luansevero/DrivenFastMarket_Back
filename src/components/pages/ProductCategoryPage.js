@@ -6,91 +6,101 @@ import TokenContext from '../../contexts/TokenContext';
 import UserContext from '../../contexts/UserContext';
 
 import styled from "styled-components";
-import { Header, ProductBox} from "../shared/storeStyle";
+import { Header, ProductBox } from "../shared/storeStyle";
 
-export default function ProductCategoryPage(){
+export default function ProductCategoryPage() {
     const { categoriaProduto } = useParams();
     const [isLoading, setIsLoading] = useState(false);
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState([]);
 
     const { url } = useContext(UserContext)
     const { token } = useContext(TokenContext);
     const navigate = useNavigate();
 
-    useEffect(async () => {
+    const devToken = "fc0f83f8-c516-4b38-90e4-fb9ce3657cd5"
+    
+    useEffect(() => {
         //if(!token){return navigate('/menu/login')};
         setIsLoading(true);
-        const handleLoadingPage = () => {
-            const promisse = axios.get(`${url}${categoriaProduto}`, {categoria:categoriaProduto}, token);
+        function handleLoadingPage() {
+            const promisse = axios.get(`${url}getAllProductsByCategory/${categoriaProduto}`, { categoria: categoriaProduto }, token);
             promisse.then((res) => {
                 setProducts(res.data);
-                return true
+                setIsLoading(false)
             })
-            promisse.catch((error) => {
+            promisse.catch((erro) => {
                 console.log('Pagina não existe movendo para HomePage');
-                return false
+                navigate('/')
             })
         }
-
-        if(handleLoadingPage){
-            setIsLoading(false)
-        } else {navigate('/')}
+        handleLoadingPage()
     }, [])
+    console.log(products)
 
-    
+    const handleSeeMore = (x) => { navigate(`/${categoriaProduto}/${x}`) }
 
-    const handleSeeMore = (x) => {navigate(`/${'local atual'}/${x}`)}
-
-    function handleTransaction(){
+    function handleTransaction() {
         window.alert('Oi')
     }
 
-    return(
+    return (
         <Body>
-            <Header>
-                    <ion-icon name="chevron-back-outline"></ion-icon>
-                    <h1>Hortifruti</h1>
-                    <ion-icon name="search-outline"></ion-icon>
-            </Header>
-            <NavBar>
-                <ul>
-                    <li className="info"><span>Frutas</span></li>
-                    <li className="info"><span>Ovos</span></li>
-                    <li className="info"><span>Legumes</span></li>
-                    <li className="info"><span>Vegetais</span></li>
-                    <li className="info"><span>Frutas</span></li>
-                    <li className="info"><span>Frutas</span></li>
-                </ul>
-            </NavBar>
-            <Main>
-                {
-                }
-                <Section>
-                    <TitleContainer>
-                        <span className="type">Frutas</span>
-                        <h3 onClick={() => handleSeeMore('var')}>VER MAIS</h3>
-                    </TitleContainer>
-                    <ProductContainer>
-                        <ProductBox>
-                            <ProductImgBox>
-                                <div className="info"><span>500g</span></div>
-                                <img src='https://frutasbrasilsul.com.br/wp-content/uploads/banana-nanica.png' alt='' />
-                                <button onClick={handleTransaction}><h3>+</h3></button>
-                            </ProductImgBox>
-                            <h2>R$ 10,99</h2>
-                            <span>Laranja Pera Aprox</span>
-                        </ProductBox>
-                    </ProductContainer>
-                </Section>
-            </Main>
+            {
+                isLoading
+                    ? <></>
+                    : <>
+                        <Header>
+                            <ion-icon name="chevron-back-outline"></ion-icon>
+                            <h1>Hortifruti</h1>
+                            <ion-icon name="search-outline"></ion-icon>
+                        </Header>
+                        <NavBar>
+                            <ul>
+                                <li className="info"><span>Frutas</span></li>
+                                <li className="info"><span>Ovos</span></li>
+                                <li className="info"><span>Legumes</span></li>
+                                <li className="info"><span>Vegetais</span></li>
+                                <li className="info"><span>Frutas</span></li>
+                                <li className="info"><span>Frutas</span></li>
+                            </ul>
+                        </NavBar>
+                        <Main>
+                            {//Cmponetizar dps
+                            }
+                            <Section>
+                                <TitleContainer>
+                                    <span className="type">Frutas</span>
+                                    <h3 onClick={() => handleSeeMore('Frutas')}>VER MAIS</h3>
+                                </TitleContainer>
+                                <ProductContainer>
+                                    { //Componetizar Depois
+                                        products.map(product => {
+                                            return (
+
+                                                <ProductBox>
+                                                    <ProductImgBox>
+                                                        <div className="info"><span>1 kg</span></div>
+                                                        <img src={product.image} alt='' />
+                                                        <button onClick={handleTransaction}><h3>+</h3></button>
+                                                    </ProductImgBox>
+                                                    <h2>R${product.preco}</h2>
+                                                    <span>{product.nome}</span>
+                                                </ProductBox>
+
+                                            )
+                                        })
+                                    }
+                                </ProductContainer>
+                            </Section>
+                        </Main>
+                    </>
+            }
+
         </Body>
     )
 }
 
-const Body =  styled.div`
-    main{
-        padding:0px 15px;
-    }
+const Body = styled.div`
     button{
         background: none;
         color: inherit;
@@ -121,7 +131,6 @@ const NavBar = styled.nav`
     left: 0px;
     width: 100%;
     overflow-y: hidden;
-    padding: 0 15px;
     background-color: #ffffff;
     ul{
         padding: 0 15px;
@@ -132,15 +141,16 @@ const NavBar = styled.nav`
         li:last-of-type{
             margin-right:0;
         }
+        li{
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 0 5px;
+            height: 40px;
+        }
     }
-    li{
-        background-color: #ffffff;
-        padding: 10px;
-        margin: 0 5px;
-        height: 40px;
-    }
+    
 `
-const Main =  styled.main`
+const Main = styled.main`
     margin-top: 120px;
     margin-bottom: 90px;
 `
@@ -156,6 +166,7 @@ const Section = styled.section`
     }
 `
 const TitleContainer = styled.div`
+    padding: 0 15px;
     display:flex;
     align-items: center;
     justify-content: space-between;
@@ -173,7 +184,8 @@ const TitleContainer = styled.div`
     }
 `
 const ProductContainer = styled.ul`
-    width:345px;
+    padding: 0 15px;
+    width:100%;
     overflow-y:hidden;
     display:flex;
     li:first-of-type{
@@ -193,6 +205,7 @@ const ProductImgBox = styled.div`
         height:105px;
     }
     div.info{
+        background-color: #FFFFFF;
         position: absolute;
         top: 7.5px;
         left: 87.5px;
@@ -200,8 +213,6 @@ const ProductImgBox = styled.div`
         border-radius: 12.5px;
         height: 25px;
         span{
-            display: block;
-            direction: rtl;
             font-weight: 400;
             font-size: 15px;
             line-height: 15px;
