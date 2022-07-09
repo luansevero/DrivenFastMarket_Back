@@ -16,7 +16,7 @@ async function registerProductValidation(req, res, next) {
     }
 }
 
-async function verifyIfProductIsAlreadyRegistered(){
+async function verifyIfProductIsAlreadyRegistered(req,res,next){
     const product = req.body;
     try{
         const verifyIfProductIsAlreadyRegistered = await db.collection("products").findOne({ nome: product.nome });
