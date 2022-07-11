@@ -9,6 +9,6 @@ const trolleyRoute = Router();
 trolleyRoute.get('/carrinho',tokenValidationMiddleware, trolley.getProducts);
 trolleyRoute.post('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductSchema, searchProduct, trolley.postProduct);
 trolleyRoute.put('/carrinho',tokenValidationMiddleware, trolleyValidate.ProductAmountSchema,searchProduct, trolley.changeProductQuantity);
-trolleyRoute.delete('/carrinho',tokenValidationMiddleware,trolleyValidate.ProductAmountSchema, searchProduct, trolley.deleteProduct);
+trolleyRoute.delete('/carrinho/:productId',tokenValidationMiddleware, searchProduct, trolley.deleteProduct);
 
 export default trolleyRoute

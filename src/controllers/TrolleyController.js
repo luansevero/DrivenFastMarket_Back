@@ -66,11 +66,11 @@ const trolley = {
     deleteProduct: async function(req,res){
         const { costumer } = res.locals;
         const { trolleyProduct } = res.locals;
-        const product = req.body;
+
         try{
             if(!trolleyProduct){return res.sendStatus(404)};
 
-            await db.collection('trolley-products').deleteOne({userId: costumer._id, productId: product.productId});
+            await db.collection('trolley-products').deleteOne({userId: costumer._id, productId: trolleyProduct.productId});
 
             res.sendStatus(200);
         }catch(error){
