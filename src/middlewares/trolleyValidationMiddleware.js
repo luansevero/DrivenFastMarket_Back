@@ -24,4 +24,4 @@ async function searchCostumerProduct(req,res,next){
     }
 }
 
-export default searchProduct;
+export {searchCostumerProduct, searchProduct}
