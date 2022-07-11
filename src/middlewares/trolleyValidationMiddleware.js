@@ -12,4 +12,16 @@ async function searchProduct(req,res,next){
     }
 }
 
-export default searchProduct;
+async function searchCostumerProduct(req,res,next){
+    const { costumer } = res.locals;
+    const { productId } = req.params;
+    try{
+        const trolleyProduct = await db.collection("trolley-products").findOne({ userId: costumer._id, productId: productId });
+        res.locals.trolleyProduct = trolleyProduct;
+        next()
+    }catch(error){
+        console.log("[Error] - isProductAlreadyInCostumerTrolley Middleware")
+    }
+}
+
+export {searchCostumerProduct, searchProduct}
