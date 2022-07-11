@@ -1,4 +1,3 @@
-import bycrypt from 'bcrypt';
 import { db, ObjectId } from '../setup/db.js';
 import { v4 as uuid } from 'uuid';
 
@@ -19,7 +18,7 @@ async function placeOrder (req, res) {
 
         await db.collection('orders').insertOne(orderData);
         await db.collection('trolley-products').deleteMany({ userId: costumer._id });
-        res.send(orderData);
+        res.send({'orderId': orderData.orderId});
 
     } catch (error) {
         console.log("[Error] - PlaceOrder Controller")
